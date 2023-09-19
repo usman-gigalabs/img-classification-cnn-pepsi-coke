@@ -11,7 +11,8 @@ img_height, img_width = 270, 230
 
 # Load and preprocess a test image
 # img_path = 'PepsiandCocaColaImages/test/pepsi/20.jpg'
-img_path = '/Users/gigalabs/Downloads/free-photo-of-pepsi-can-in-dew.jpeg'
+img_path = '/Users/gigalabs/Downloads/hqdefault.jpeg'
+# img_path = '/Users/gigalabs/Downloads/Pepsi_cocacola_images/test_images/new_cola (247).jpg.jpg'
 img = image.load_img(img_path, target_size=(img_height, img_width))
 img_array = image.img_to_array(img)
 img_array = np.expand_dims(img_array, axis=0)

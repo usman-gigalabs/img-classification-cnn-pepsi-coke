@@ -9,23 +9,33 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 
 # Define the data directory and batch size
-data_dir = "animal-data/raw-img-small"
+data_dir = "PepsiandCocaColaImages/train"
 batch_size = 32
+
+# Define image dimensions
+img_height, img_width = 270, 230
 
 # Count the number of subfolders in the dataset folder, each subfolder represents a class
 num_classes = len(os.listdir(data_dir))
 
 print(num_classes)
 
-# Create ImageDataGenerators for training and testing
+# Create ImageDataGenerators for training and testing with data augmentation
 train_datagen = ImageDataGenerator(
-    rescale=1.0/255.0,  # Normalize pixel values to [0, 1]
-    validation_split=0.2  # Split the data into training and validation sets
+    rescale=1.0 / 255.0,  # Normalize pixel values to [0, 1]
+    validation_split=0.2,  # Split the data into training and validation sets
+    rotation_range=15,  # Randomly rotate images by up to 15 degrees
+    width_shift_range=0.2,  # Randomly shift the width by up to 20%
+    height_shift_range=0.2,  # Randomly shift the height by up to 20%
+    shear_range=0.2,  # Shear transformations
+    zoom_range=0.2,  # Randomly zoom in by up to 20%
+    horizontal_flip=True,  # Randomly flip images horizontally
+    fill_mode='nearest'  # Fill in new pixels with the nearest value
 )
 
 train_generator = train_datagen.flow_from_directory(
     data_dir,
-    target_size=(224, 224),  # Resize images to a common size
+    target_size=(img_height, img_width),  # Resize images to a common size
     batch_size=batch_size,
     class_mode='categorical',  # For multi-class classification
     subset='training'  # Specify this is the training set
@@ -33,7 +43,7 @@ train_generator = train_datagen.flow_from_directory(
 
 validation_generator = train_datagen.flow_from_directory(
     data_dir,
-    target_size=(224, 224),
+    target_size=(img_height, img_width),
     batch_size=batch_size,
     class_mode='categorical',
     subset='validation'  # Specify this is the validation set
